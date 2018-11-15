@@ -34,6 +34,10 @@ typedef struct {
 
 extern Song songs[];
 #define NUM_SONGS 5
+#define PERFECT_FRAMES 5
+#define GREAT_FRAMES 10
+#define OK_FRAMES 20
+
 
 typedef struct {
     // general
@@ -44,7 +48,8 @@ typedef struct {
 
     //song play
     int firstFrameOfThisSong;
-    Score currentScore;
+    Score score;
+    int beatsAttempted; //Keeps track of which notes the player has pressed in the map so you can't do so twice
 
     //song complete
 

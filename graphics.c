@@ -48,18 +48,17 @@ void drawAppState(AppState *state) {
 		drawRectDMA(80, 30, 80, 80, img2);
 		drawRectDMA(175, 45, 50, 50, img3);
 
-		//DEBUG
-		drawRectDMA(0, 0, 100, 20, WHITE);
-		char str[20];
-		sprintf(str, "song index: %d", appState.currentSongIndex);
-		drawString(0, 0, str, BLACK);
-
 
 		break;
 
 
 		case SONG_PLAY:
 		// fillScreenDMA(BLACK);
+		//DEBUG
+		drawRectDMA(0, 0, 100, 20, WHITE);
+		char str[20];
+		sprintf(str, "song progress: %d", vBlankCounter - appState.firstFrameOfThisSong);
+		drawString(0, 0, str, BLACK);
 
 		break;
 
@@ -68,26 +67,26 @@ void drawAppState(AppState *state) {
 		fillScreenDMA(BLACK);
 
 		//Tell the player how they did!
-		
+
 		Song currentSong = songs[appState.currentSongIndex];
 
 		drawCenteredString(60, 20, 0, 0, "Song", WHITE);
 		drawRectDMA(20, 35, 80, 80, currentSong.previewImage);
 		drawCenteredString(60, 140, 0, 0, currentSong.name, WHITE);
 
-		sprintf(shortLivedCharBuffer, "Perfects: %d", appState.currentScore.perfects);
+		sprintf(shortLivedCharBuffer, "Perfects: %d", appState.score.perfects);
 		drawString(130, 20, shortLivedCharBuffer, WHITE);
 
-		sprintf(shortLivedCharBuffer, "Greats: %d", appState.currentScore.greats);
+		sprintf(shortLivedCharBuffer, "Greats: %d", appState.score.greats);
 		drawString(130, 50, shortLivedCharBuffer, WHITE);
 
-		sprintf(shortLivedCharBuffer, "Okays: %d", appState.currentScore.oks);
+		sprintf(shortLivedCharBuffer, "Okays: %d", appState.score.oks);
 		drawString(130, 80, shortLivedCharBuffer, WHITE);
 
-		sprintf(shortLivedCharBuffer, "Misses: %d", appState.currentScore.misses);
+		sprintf(shortLivedCharBuffer, "Misses: %d", appState.score.misses);
 		drawString(130, 110, shortLivedCharBuffer, WHITE);
 
-		sprintf(shortLivedCharBuffer, "Total Score: %d", appState.currentScore.totalScore);
+		sprintf(shortLivedCharBuffer, "Total Score: %d", appState.score.totalScore);
 		drawString(130, 140, shortLivedCharBuffer, WHITE);
 		
 		break;
