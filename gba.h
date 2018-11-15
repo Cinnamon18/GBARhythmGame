@@ -36,6 +36,7 @@ typedef unsigned char u8;
 //The size of the GBA Screen
 #define WIDTH 240
 #define HEIGHT 160
+#define TOTAL_SCREEN_PIXELS 38400
 
 // This is initialized in gba.c
 extern volatile unsigned short *videoBuffer;
@@ -61,7 +62,10 @@ extern volatile unsigned short *videoBuffer;
 // Remember that a button is recently pressed if it wasn't pressed in the last
 // input (oldButtons) but is pressed in the current input. Use the KEY_DOWN
 // macro to check if the button was pressed in the inputs.
-#define KEY_JUST_PRESSED(key, buttons, oldbuttons)
+#define KEY_JUST_PRESSED(key, buttons, oldbuttons) (KEY_DOWN(key, buttons) & ~KEY_DOWN(key, oldbuttons))
+
+//My heart tells me this is bad practice, but it sure is convenient. Ah, like a butterfly, fragile and beautiful.
+#define GET_KEY(key) KEY_JUST_PRESSED((key), previousButtons, currentButtons)
 
 // ---------------------------------------------------------------------------
 //                       DMA
@@ -121,6 +125,7 @@ void waitForVBlank(void);
 //                       MISC
 // ---------------------------------------------------------------------------
 #define UNUSED(param) ((void)((param)))
+void delay(int n);
 
 /**
  * Generates a pseudo-random number between min and max, inclusive.

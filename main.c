@@ -22,6 +22,7 @@ typedef enum {
 
 int main(void) {
     // TA-TODO: Manipulate REG_DISPCNT here to set Mode 3.
+    REG_DISPCNT = MODE3 | BG2_ENABLE;
 
     GBAState state = START;
 
@@ -35,23 +36,24 @@ int main(void) {
     while(1) {
         // Load the current state of the buttons
         currentButtons = BUTTONS;
+        // fillScreenDMA(CYAN);
 
-        // TA-TODO: Manipulate the state machine below as needed.
         switch(state) {
-        case START:
+            case START:
             // Wait for VBlank
             waitForVBlank();
 
             // TA-TODO: Draw the start state here.
 
-            state = START_NODRAW;
+            state = START;
+            // state = START_NODRAW;
             break;
-        case START_NODRAW:
+            case START_NODRAW:
             // TA-TODO: Check for a button press here to start the app.
             // Start the app by switching the state to APP_INIT.
 
             break;
-        case APP_INIT:
+            case APP_INIT:
             // Initialize the app. Switch to the APP state.
             initializeAppState(&currentAppState);
 
@@ -60,7 +62,7 @@ int main(void) {
 
             state = APP;
             break;
-        case APP:
+            case APP:
             // Process the app for one frame, store the next state
             nextAppState = processAppState(&currentAppState, previousButtons, currentButtons);
 
@@ -80,7 +82,7 @@ int main(void) {
             if (nextAppState.gameOver) state = APP_EXIT;
 
             break;
-        case APP_EXIT:
+            case APP_EXIT:
             // Wait for VBlank
             waitForVBlank();
 
@@ -88,7 +90,7 @@ int main(void) {
 
             state = APP_EXIT_NODRAW;
             break;
-        case APP_EXIT_NODRAW:
+            case APP_EXIT_NODRAW:
             // TA-TODO: Check for a button press here to go back to the start screen
 
             break;
