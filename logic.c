@@ -1,10 +1,19 @@
 #include "logic.h"
+#include<stdio.h> 
+
+
+Song songs[] = {
+    { MAP1_SIZE, 30, map1, CYAN},
+    { MAP1_SIZE, 20, map1, MAGENTA},
+    { MAP1_SIZE, 10, map1, YELLOW},
+    { MAP1_SIZE, 5, map1, GREEN},
+    { MAP1_SIZE, 2, map1, BLUE}
+};
 
 void initializeAppState(AppState* appState) {
-    // TA-TODO: Initialize everything that's part of this AppState struct here.
-    // Suppose the struct contains random values, make sure everything gets
-    // the value it should have when the app begins.
-    UNUSED(appState);
+    appState->nextState = SONG_SELECT;
+
+    appState->currentSongIndex = 1;
 }
 
 // TA-TODO: Add any process functions for sub-elements of your app here.
@@ -18,10 +27,45 @@ void initializeAppState(AppState* appState) {
 // This function processes your current app state and returns the new (i.e. next)
 // state of your application.
 void processAppState(AppState *currentAppState, u32 previousButtons, u32 currentButtons) {
-    
 
-    UNUSED(currentAppState);
-    UNUSED(previousButtons);
-    UNUSED(currentButtons);
+    AppState appState = *currentAppState;
+
+    switch(appState.nextState) {
+        case SONG_SELECT:
+
+        if(GET_KEY(BUTTON_ANY_RIGHT)) {
+            appState.currentSongIndex++;
+        } else if (GET_KEY(BUTTON_ANY_LEFT)) {
+            appState.currentSongIndex--;
+        }
+
+        appState.currentSongIndex = (appState.currentSongIndex % NUM_SONGS);
+
+        drawRectDMA(0, 0, 100, 20, WHITE);
+        char str[20];
+        sprintf(str, "song index: %d", appState.currentSongIndex);
+        drawString(0, 0, str, BLACK);
+
+        if(GET_KEY(BUTTON_START)) {
+            // appState.nextState = SONG_PLAY;
+        }
+        break;
+        
+
+        case SONG_PLAY:
+
+        appState.nextState = SONG_COMPLETE;
+        break;
+
+
+        case SONG_COMPLETE:
+        if(GET_KEY(BUTTON_ANY)) {
+            appState.nextState = SONG_SELECT;
+        }
+        break;
+
+        default:
+        break;
+    }
 
 }

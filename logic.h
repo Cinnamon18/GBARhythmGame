@@ -19,6 +19,7 @@ typedef struct {
     const int beatCount;
     const int framesPerBeat;
     const unsigned short * beatmap;
+    const u16 previewImage;
 } Song;
 
 typedef struct {
@@ -28,14 +29,21 @@ typedef struct {
     int misses;
 } Score;
 
+extern Song songs[];
+#define NUM_SONGS 5
+
 typedef struct {
-    // holds the next state, which main.c reads.
+    // general
     GBAState nextState;
 
-    Song currentSong;
+    //song select
+    int currentSongIndex;
+
+    //song play
+    int firstFrameOfThisSong;
     Score currentScore;
 
-    int firstFrameOfThisSong;
+    //song complete
 
 } AppState;
 

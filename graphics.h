@@ -2,10 +2,8 @@
 #define GRAPHICS_SEEN
 
 #include "logic.h"
-
-// This function will be used to draw everything about the state of your app
-// including the background and whatnot.
-void fullDrawAppState(AppState *state);
+#include "beatmaps.h"
+#include "gba.h"
 
 // This function will be used to draw things that might have moved in a frame.
 // For example, in a Snake game, draw the snake, the food, the score.
