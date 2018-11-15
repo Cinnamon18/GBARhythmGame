@@ -15,19 +15,10 @@ typedef struct {
 
 } AppState;
 
-/*
-* TA-TODO: Add any additional structs that you need for your app.
-*
-* For example, for a Snake game, one could be:
-*
-* typedef struct {
-*   int heading;
-*   int length;
-*   int x;
-*   int y;
-* } Snake;
-*
-*/
+
+// A beatmap is defined as a unsigned short (16 bits), where the bits represent which beats should be hit 
+// Looks like this, where Xs represent unused bits
+// xxxx asdf xxx(space bar) jkl;
 
 typedef struct {
     const unsigned short beatmap[];
