@@ -5,6 +5,10 @@
 #include "beatmaps.h"
 #include "gba.h"
 
+#define NOTE_SIZE 20
+#define HIT_Y 6
+#define BACKGROUND_REDRAW_HEIGHT 5
+
 // This function will be used to draw things that might have moved in a frame.
 // For example, in a Snake game, draw the snake, the food, the score.
 void drawAppState(AppState *state);

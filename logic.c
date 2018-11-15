@@ -3,11 +3,11 @@
 #include <stdlib.h>
 
 Song songs[] = {
-    { MAP1_SIZE, 30, map1, CYAN, "Song A"},
-    { MAP1_SIZE, 20, map1, MAGENTA, "Song B"},
-    { MAP1_SIZE, 10, map1, YELLOW, "Song C"},
-    { MAP1_SIZE, 5, map1, GREEN, "Song D"},
-    { MAP1_SIZE, 2, map1, BLUE, "Song E"}
+    { MAP1_SIZE, 60, map1, CYAN, "Song A"},
+    { MAP1_SIZE, 40, map1, MAGENTA, "Song B"},
+    { MAP1_SIZE, 20, map1, YELLOW, "Song C"},
+    { MAP1_SIZE, 10, map1, GREEN, "Song D"},
+    { MAP1_SIZE, 5, map1, BLUE, "Song E"}
 };
 
 void initializeAppState(AppState* appState) {
@@ -38,11 +38,16 @@ void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons
 
         //if they hit the start button, advance to main game loop
         if(GET_KEY(BUTTON_START)) {
-            appState->firstFrameOfThisSong = vBlankCounter + 1;
-            appState->nextState = SONG_PLAY;
+            appState->nextState = SONG_PLAY_PREP;
         }
         break;
         
+
+        case SONG_PLAY_PREP:
+        appState->firstFrameOfThisSong = vBlankCounter + 1;
+        appState->nextState = SONG_PLAY;
+        break;
+
 
         case SONG_PLAY:
         //Main game loop!
@@ -68,6 +73,71 @@ void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons
                     appState->score.misses++;
                 }
             }
+
+            if(GET_KEY(BUTTON_B)) {
+                if(currentSong.beatmap[beatProgress + 1] && 0x0400) {
+                    beatsHit++;
+                } else {
+                    appState->score.misses++;
+                }
+            }
+
+            if(GET_KEY(BUTTON_L)) {
+                if(currentSong.beatmap[beatProgress + 1] && 0x0200) {
+                    beatsHit++;
+                } else {
+                    appState->score.misses++;
+                }
+            }
+
+            if(GET_KEY(BUTTON_R)) {
+                if(currentSong.beatmap[beatProgress + 1] && 0x0100) {
+                    beatsHit++;
+                } else {
+                    appState->score.misses++;
+                }
+            }
+
+            if(GET_KEY(BUTTON_START)) {
+                if(currentSong.beatmap[beatProgress + 1] && 0x0010) {
+                    beatsHit++;
+                } else {
+                    appState->score.misses++;
+                }
+            }
+
+            if(GET_KEY(BUTTON_LEFT)) {
+                if(currentSong.beatmap[beatProgress + 1] && 0x0008) {
+                    beatsHit++;
+                } else {
+                    appState->score.misses++;
+                }
+            }
+
+            if(GET_KEY(BUTTON_UP)) {
+                if(currentSong.beatmap[beatProgress + 1] && 0x0004) {
+                    beatsHit++;
+                } else {
+                    appState->score.misses++;
+                }
+            }
+
+            if(GET_KEY(BUTTON_DOWN)) {
+                if(currentSong.beatmap[beatProgress + 1] && 0x0002) {
+                    beatsHit++;
+                } else {
+                    appState->score.misses++;
+                }
+            }
+
+            if(GET_KEY(BUTTON_RIGHT)) {
+                if(currentSong.beatmap[beatProgress + 1] && 0x0001) {
+                    beatsHit++;
+                } else {
+                    appState->score.misses++;
+                }
+            }
+
 
 
 

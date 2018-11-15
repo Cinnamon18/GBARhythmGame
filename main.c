@@ -60,6 +60,7 @@ int main(void) {
 
             //These three states are equivelant from the main render logic's prespective.
             case SONG_SELECT:
+            case SONG_PLAY_PREP:
             case SONG_PLAY:
             case SONG_COMPLETE:
             case SONG_COMPLETE_NODRAW:

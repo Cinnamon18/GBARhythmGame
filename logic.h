@@ -11,6 +11,7 @@ typedef enum {
     START_NODRAW,
     APP_INIT,
     SONG_SELECT,
+    SONG_PLAY_PREP,
     SONG_PLAY,
     SONG_COMPLETE,
     SONG_COMPLETE_NODRAW

@@ -22,6 +22,8 @@ static char shortLivedCharBuffer[20];
 void drawAppState(AppState *state) {
 	AppState appState = *state;
 
+	Song currentSong = songs[appState.currentSongIndex];
+
 	switch(appState.nextState) {
 		case SONG_SELECT:
 		;
@@ -51,14 +53,65 @@ void drawAppState(AppState *state) {
 
 		break;
 
+		case SONG_PLAY_PREP:
+		fillScreenDMA(BLACK);
+		break;
+
 
 		case SONG_PLAY:
-		// fillScreenDMA(BLACK);
-		//DEBUG
-		drawRectDMA(0, 0, 100, 20, WHITE);
-		char str[20];
-		sprintf(str, "song progress: %d", vBlankCounter - appState.firstFrameOfThisSong);
-		drawString(0, 0, str, BLACK);
+		;
+
+        //Keep track of how far in the song we are
+		int frameProgress = (vBlankCounter - appState.firstFrameOfThisSong);
+		int beatProgress = (frameProgress / currentSong.framesPerBeat);
+		int framesIntoThisBeat = frameProgress % currentSong.framesPerBeat;
+
+		//int hack... it's 20 x the actual percent
+		int beatPercentElapsed = (framesIntoThisBeat * 20) / currentSong.framesPerBeat;
+
+		// DEBUG
+		drawRectDMA(0, 0, 150, 20, BLACK);
+		char str[25];
+		sprintf(str, "percent elapsed: %d", beatPercentElapsed);
+		drawString(0, 0, str, WHITE);
+
+		//Draw notes
+		int notesY = HIT_Y * beatPercentElapsed;
+		if(currentSong.beatmap[beatProgress] & 0x0800) {
+			drawRectDMA(5, notesY, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
+			drawRectDMA(5, notesY, NOTE_SIZE, NOTE_SIZE, RED);
+		}
+		if(currentSong.beatmap[beatProgress] & 0x0400) {
+
+			drawRectDMA(35, notesY, NOTE_SIZE, NOTE_SIZE, RED);
+		}
+		if(currentSong.beatmap[beatProgress] & 0x0200){
+
+			drawRectDMA(65, notesY, NOTE_SIZE, NOTE_SIZE, RED);
+		}
+		if(currentSong.beatmap[beatProgress] & 0x0100){
+
+			drawRectDMA(95, notesY, NOTE_SIZE, NOTE_SIZE, RED);
+		}
+		if(currentSong.beatmap[beatProgress] & 0x0008){
+
+			drawRectDMA(125, notesY, NOTE_SIZE, NOTE_SIZE, RED);
+		}
+		if(currentSong.beatmap[beatProgress] & 0x0004){
+
+			drawRectDMA(155, notesY, NOTE_SIZE, NOTE_SIZE, RED);
+		}
+		if(currentSong.beatmap[beatProgress] & 0x0002){
+
+			drawRectDMA(185, notesY, NOTE_SIZE, NOTE_SIZE, RED);
+		}
+		if(currentSong.beatmap[beatProgress] & 0x0001){
+
+			drawRectDMA(215, notesY, NOTE_SIZE, NOTE_SIZE, RED);
+		}
+
+
+
 
 		break;
 
@@ -67,8 +120,6 @@ void drawAppState(AppState *state) {
 		fillScreenDMA(BLACK);
 
 		//Tell the player how they did!
-
-		Song currentSong = songs[appState.currentSongIndex];
 
 		drawCenteredString(60, 20, 0, 0, "Song", WHITE);
 		drawRectDMA(20, 35, 80, 80, currentSong.previewImage);
@@ -88,7 +139,7 @@ void drawAppState(AppState *state) {
 
 		sprintf(shortLivedCharBuffer, "Total Score: %d", appState.score.totalScore);
 		drawString(130, 140, shortLivedCharBuffer, WHITE);
-		
+
 		break;
 
 		case SONG_COMPLETE_NODRAW:

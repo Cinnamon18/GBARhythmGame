@@ -18,9 +18,9 @@ Starting Mednafen 0.9.48
    Loading override settings from "/home/a/.mednafen/pgconfig/GBARhythmGame.gba.cfg"...
     Failed: Error opening file "/home/a/.mednafen/pgconfig/GBARhythmGame.gba.cfg": No such file or directory
 
-   ROM:       56KiB
-   ROM CRC32: 0xdc1178fa
-   ROM MD5:   0x61e694e176c93eb8bebd46ae7fe9ee44
+   ROM:       57KiB
+   ROM CRC32: 0xa2bcb061
+   ROM MD5:   0xa5eea26f603828e954e4eaed922c8a01
 
   Loading custom palette from "/home/a/.mednafen/palettes/gba.pal"...
    Error: Error opening file "/home/a/.mednafen/palettes/gba.pal": No such file or directory
