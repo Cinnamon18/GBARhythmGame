@@ -16,18 +16,23 @@
 
 // This function will be used to draw things that might have moved in a frame.
 // For example, in a Snake game, draw the snake, the food, the score.
+
+static char shortLivedCharBuffer[20]; 
+
 void drawAppState(AppState *state) {
 	AppState appState = *state;
 
 	switch(appState.nextState) {
 		case SONG_SELECT:
 		;
+
+		//Draw the song selection carousell
 		u16 img1, img2, img3;
 
-		// fillScreenDMA(WHITE);
+		fillScreenDMA(WHITE);
 
 		img2 = songs[appState.currentSongIndex].previewImage;
-		
+
 		if(appState.currentSongIndex == 0) {
 			img1 = songs[NUM_SONGS - 1].previewImage;
 			img3 = songs[1].previewImage;
@@ -43,6 +48,12 @@ void drawAppState(AppState *state) {
 		drawRectDMA(80, 30, 80, 80, img2);
 		drawRectDMA(175, 45, 50, 50, img3);
 
+		//DEBUG
+		drawRectDMA(0, 0, 100, 20, WHITE);
+		char str[20];
+		sprintf(str, "song index: %d", appState.currentSongIndex);
+		drawString(0, 0, str, BLACK);
+
 
 		break;
 
@@ -54,6 +65,34 @@ void drawAppState(AppState *state) {
 
 
 		case SONG_COMPLETE:
+		fillScreenDMA(BLACK);
+
+		//Tell the player how they did!
+		
+		Song currentSong = songs[appState.currentSongIndex];
+
+		drawCenteredString(60, 20, 0, 0, "Song", WHITE);
+		drawRectDMA(20, 35, 80, 80, currentSong.previewImage);
+		drawCenteredString(60, 140, 0, 0, currentSong.name, WHITE);
+
+		sprintf(shortLivedCharBuffer, "Perfects: %d", appState.currentScore.perfects);
+		drawString(130, 20, shortLivedCharBuffer, WHITE);
+
+		sprintf(shortLivedCharBuffer, "Greats: %d", appState.currentScore.greats);
+		drawString(130, 50, shortLivedCharBuffer, WHITE);
+
+		sprintf(shortLivedCharBuffer, "Okays: %d", appState.currentScore.oks);
+		drawString(130, 80, shortLivedCharBuffer, WHITE);
+
+		sprintf(shortLivedCharBuffer, "Misses: %d", appState.currentScore.misses);
+		drawString(130, 110, shortLivedCharBuffer, WHITE);
+
+		sprintf(shortLivedCharBuffer, "Total Score: %d", appState.currentScore.totalScore);
+		drawString(130, 140, shortLivedCharBuffer, WHITE);
+		
+		break;
+
+		case SONG_COMPLETE_NODRAW:
 		break;
 
 		default:

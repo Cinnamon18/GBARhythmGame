@@ -62,6 +62,7 @@ int main(void) {
             case SONG_SELECT:
             case SONG_PLAY:
             case SONG_COMPLETE:
+            case SONG_COMPLETE_NODRAW:
             // Process the app for one frame, store the next state
             processAppState(&appState, previousButtons, currentButtons);
 

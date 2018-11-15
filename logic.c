@@ -3,64 +3,64 @@
 
 
 Song songs[] = {
-    { MAP1_SIZE, 30, map1, CYAN},
-    { MAP1_SIZE, 20, map1, MAGENTA},
-    { MAP1_SIZE, 10, map1, YELLOW},
-    { MAP1_SIZE, 5, map1, GREEN},
-    { MAP1_SIZE, 2, map1, BLUE}
+    { MAP1_SIZE, 30, map1, CYAN, "Song A"},
+    { MAP1_SIZE, 20, map1, MAGENTA, "Song B"},
+    { MAP1_SIZE, 10, map1, YELLOW, "Song C"},
+    { MAP1_SIZE, 5, map1, GREEN, "Song D"},
+    { MAP1_SIZE, 2, map1, BLUE, "Song E"}
 };
 
 void initializeAppState(AppState* appState) {
     appState->nextState = SONG_SELECT;
 
     appState->currentSongIndex = 1;
+    Score score = { 0, 0, 0, 0, 0 };
+    appState->currentScore = score;
 }
 
-// TA-TODO: Add any process functions for sub-elements of your app here.
-// For example, for a snake game, you could have a processSnake function
-// or a createRandomFood function or a processFoods function.
-//
-// e.g.:
-// static Snake processSnake(Snake* currentSnake);
-// static void generateRandomFoods(AppState* currentAppState, AppState* nextAppState);
+void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons) {
 
-// This function processes your current app state and returns the new (i.e. next)
-// state of your application.
-void processAppState(AppState *currentAppState, u32 previousButtons, u32 currentButtons) {
-
-    AppState appState = *currentAppState;
-
-    switch(appState.nextState) {
+    switch(appState->nextState) {
         case SONG_SELECT:
 
+        //Song selection carousell logic
         if(GET_KEY(BUTTON_ANY_RIGHT)) {
-            appState.currentSongIndex++;
+            appState->currentSongIndex++;
         } else if (GET_KEY(BUTTON_ANY_LEFT)) {
-            appState.currentSongIndex--;
+            appState->currentSongIndex--;
         }
 
-        appState.currentSongIndex = (appState.currentSongIndex % NUM_SONGS);
+        appState->currentSongIndex = (appState->currentSongIndex % NUM_SONGS);
+        if(appState->currentSongIndex < 0) {
+            appState->currentSongIndex = NUM_SONGS - 1;
+        }
 
-        drawRectDMA(0, 0, 100, 20, WHITE);
-        char str[20];
-        sprintf(str, "song index: %d", appState.currentSongIndex);
-        drawString(0, 0, str, BLACK);
-
+        //if they hit the start button, advance to main game loop
         if(GET_KEY(BUTTON_START)) {
-            // appState.nextState = SONG_PLAY;
+            appState->firstFrameOfThisSong = vBlankCounter + 1;
+            appState->nextState = SONG_PLAY;
         }
         break;
         
 
         case SONG_PLAY:
+        //Main game loop!
 
-        appState.nextState = SONG_COMPLETE;
+        //Keep track of how far in the song we are
+
+
+        //TODO calculate total score in here
+        appState->nextState = SONG_COMPLETE;
         break;
 
 
         case SONG_COMPLETE:
+        appState->nextState = SONG_COMPLETE_NODRAW;
+        break;
+
+        case SONG_COMPLETE_NODRAW:
         if(GET_KEY(BUTTON_ANY)) {
-            appState.nextState = SONG_SELECT;
+            appState->nextState = SONG_SELECT;
         }
         break;
 

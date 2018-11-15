@@ -12,7 +12,8 @@ typedef enum {
     APP_INIT,
     SONG_SELECT,
     SONG_PLAY,
-    SONG_COMPLETE
+    SONG_COMPLETE,
+    SONG_COMPLETE_NODRAW
 } GBAState;
 
 typedef struct {
@@ -20,6 +21,7 @@ typedef struct {
     const int framesPerBeat;
     const unsigned short * beatmap;
     const u16 previewImage;
+    char name[15];
 } Song;
 
 typedef struct {
@@ -27,6 +29,7 @@ typedef struct {
     int greats;
     int oks;
     int misses;
+    int totalScore;
 } Score;
 
 extern Song songs[];
