@@ -15,9 +15,9 @@ typedef enum {
     START,
     START_NODRAW,
     APP_INIT,
-    APP,
-    APP_EXIT,
-    APP_EXIT_NODRAW,
+    SONG_SELECT,
+    SONG_PLAY,
+    SONG_COMPLETE
 } GBAState;
 
 int main(void) {
@@ -26,8 +26,7 @@ int main(void) {
 
     GBAState state = START;
 
-    // We store the "previous" and "current" states.
-    AppState currentAppState, nextAppState;
+    AppState appState;
 
     // We store the current and previous values of the button input.
     u32 previousButtons = BUTTONS;
@@ -43,56 +42,54 @@ int main(void) {
             // Wait for VBlank
             waitForVBlank();
 
-            // TA-TODO: Draw the start state here.
+            // TODO: Draw a spash screen
+            fillScreenDMA(CYAN);
 
-            state = START;
-            // state = START_NODRAW;
+            // state = START;
+            state = START_NODRAW;
             break;
+
+
             case START_NODRAW:
-            // TA-TODO: Check for a button press here to start the app.
             // Start the app by switching the state to APP_INIT.
-
+            if(GET_KEY(BUTTON_ANY)) {
+                state = APP_INIT;
+            }
             break;
+
+
             case APP_INIT:
+            fillScreenDMA(RED);
             // Initialize the app. Switch to the APP state.
-            initializeAppState(&currentAppState);
+            initializeAppState(&appState);
 
             // Draw the initial state of the app
-            fullDrawAppState(&currentAppState);
+            fullDrawAppState(&appState);
 
-            state = APP;
+            state = SONG_SELECT;
             break;
-            case APP:
+
+
+            //These three states are equivelant from the main render logic's prespective.
+            case SONG_SELECT:
+            case SONG_PLAY:
+            case SONG_COMPLETE:
             // Process the app for one frame, store the next state
-            nextAppState = processAppState(&currentAppState, previousButtons, currentButtons);
+            processAppState(&appState, previousButtons, currentButtons);
 
             // Wait for VBlank before we do any drawing.
             waitForVBlank();
 
-            // Undraw the previous state
-            undrawAppState(&currentAppState);
-
             // Draw the current state
-            drawAppState(&nextAppState);
+            drawAppState(&appState);
 
-            // Now set the current state as the next state for the next iter.
-            currentAppState = nextAppState;
-
-            // Check if the app is exiting. If it is, then go to the exit state.
-            if (nextAppState.gameOver) state = APP_EXIT;
-
-            break;
-            case APP_EXIT:
-            // Wait for VBlank
-            waitForVBlank();
-
-            // TA-TODO: Draw the exit / gameover screen
-
-            state = APP_EXIT_NODRAW;
-            break;
-            case APP_EXIT_NODRAW:
-            // TA-TODO: Check for a button press here to go back to the start screen
-
+            // Go to the next state as decided by the logic
+            state = appState.nextState;
+            
+            //Fufil requirement "you can restart at any time by pressing select"
+            if(GET_KEY(BUTTON_SELECT)) {
+                state = START;
+            }
             break;
         }
 

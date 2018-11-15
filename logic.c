@@ -17,7 +17,7 @@ void initializeAppState(AppState* appState) {
 
 // This function processes your current app state and returns the new (i.e. next)
 // state of your application.
-AppState processAppState(AppState *currentAppState, u32 keysPressedBefore, u32 keysPressedNow) {
+AppState processAppState(AppState *currentAppState, u32 previousButtons, u32 currentButtons) {
     /* TA-TODO: Do all of your app processing here. This function gets called
      * every frame.
      *
