@@ -9,16 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// AppState enum definition
-typedef enum {
-    // TA-TODO: Add any additional states you need for your app.
-    START,
-    START_NODRAW,
-    APP_INIT,
-    SONG_SELECT,
-    SONG_PLAY,
-    SONG_COMPLETE
-} GBAState;
 
 int main(void) {
     // TA-TODO: Manipulate REG_DISPCNT here to set Mode 3.
@@ -59,7 +49,6 @@ int main(void) {
 
 
             case APP_INIT:
-            fillScreenDMA(RED);
             // Initialize the app. Switch to the APP state.
             initializeAppState(&appState);
 

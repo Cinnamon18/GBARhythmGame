@@ -2,7 +2,31 @@
 #define LOGIC_SEEN
 
 #include "gba.h"
+#include "beatmaps.h"
 
+// AppState enum definition
+typedef enum {
+    // TA-TODO: Add any additional states you need for your app.
+    START,
+    START_NODRAW,
+    APP_INIT,
+    SONG_SELECT,
+    SONG_PLAY,
+    SONG_COMPLETE
+} GBAState;
+
+typedef struct {
+    const int beatCount;
+    const int framesPerBeat;
+    const unsigned short * beatmap;
+} Song;
+
+typedef struct {
+    int perfects;
+    int greats;
+    int oks;
+    int misses;
+} Score;
 
 typedef struct {
     // holds the next state, which main.c reads.
@@ -16,29 +40,11 @@ typedef struct {
 } AppState;
 
 
-// A beatmap is defined as a unsigned short (16 bits), where the bits represent which beats should be hit 
-// Looks like this, where Xs represent unused bits
-// xxxx asdf xxx(space bar) jkl;
-
-typedef struct {
-    const unsigned short beatmap[];
-    const int beatCount;
-    const int framesPerBeat;
-} Song;
-
-typedef struct {
-    int perfects;
-    int greats;
-    int oks;
-    int misses;
-} Score;
-
-
 // This function can initialize an unused AppState struct.
 void initializeAppState(AppState *appState);
 
 // This function will be used to process app frames.
-AppState processAppState(AppState *currentAppState, u32 previousButtons, u32 currentButtons);
+void processAppState(AppState *currentAppState, u32 previousButtons, u32 currentButtons);
 
 // If you have anything else you need accessible from outside the logic.c
 // file, you can add them here. You likely won't.
