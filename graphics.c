@@ -78,35 +78,35 @@ void drawAppState(AppState *state) {
 		//Draw notes
 		int notesY = HIT_Y * beatPercentElapsed;
 		if(currentSong.beatmap[beatProgress] & 0x0800) {
-			drawRectDMA(5, notesY, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
+			drawRectDMA(5, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
 			drawRectDMA(5, notesY, NOTE_SIZE, NOTE_SIZE, RED);
 		}
 		if(currentSong.beatmap[beatProgress] & 0x0400) {
-
+			drawRectDMA(35, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
 			drawRectDMA(35, notesY, NOTE_SIZE, NOTE_SIZE, RED);
 		}
 		if(currentSong.beatmap[beatProgress] & 0x0200){
-
+			drawRectDMA(65, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
 			drawRectDMA(65, notesY, NOTE_SIZE, NOTE_SIZE, RED);
 		}
 		if(currentSong.beatmap[beatProgress] & 0x0100){
-
+			drawRectDMA(95, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
 			drawRectDMA(95, notesY, NOTE_SIZE, NOTE_SIZE, RED);
 		}
 		if(currentSong.beatmap[beatProgress] & 0x0008){
-
+			drawRectDMA(125, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
 			drawRectDMA(125, notesY, NOTE_SIZE, NOTE_SIZE, RED);
 		}
 		if(currentSong.beatmap[beatProgress] & 0x0004){
-
+			drawRectDMA(155, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
 			drawRectDMA(155, notesY, NOTE_SIZE, NOTE_SIZE, RED);
 		}
 		if(currentSong.beatmap[beatProgress] & 0x0002){
-
+			drawRectDMA(185, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
 			drawRectDMA(185, notesY, NOTE_SIZE, NOTE_SIZE, RED);
 		}
 		if(currentSong.beatmap[beatProgress] & 0x0001){
-
+			drawRectDMA(215, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
 			drawRectDMA(215, notesY, NOTE_SIZE, NOTE_SIZE, RED);
 		}
 
@@ -126,19 +126,19 @@ void drawAppState(AppState *state) {
 		drawCenteredString(60, 140, 0, 0, currentSong.name, WHITE);
 
 		sprintf(shortLivedCharBuffer, "Perfects: %d", appState.score.perfects);
-		drawString(130, 20, shortLivedCharBuffer, WHITE);
+		drawString(140, 20, shortLivedCharBuffer, WHITE);
 
 		sprintf(shortLivedCharBuffer, "Greats: %d", appState.score.greats);
-		drawString(130, 50, shortLivedCharBuffer, WHITE);
+		drawString(140, 50, shortLivedCharBuffer, WHITE);
 
 		sprintf(shortLivedCharBuffer, "Okays: %d", appState.score.oks);
-		drawString(130, 80, shortLivedCharBuffer, WHITE);
+		drawString(140, 80, shortLivedCharBuffer, WHITE);
 
 		sprintf(shortLivedCharBuffer, "Misses: %d", appState.score.misses);
-		drawString(130, 110, shortLivedCharBuffer, WHITE);
+		drawString(140, 110, shortLivedCharBuffer, WHITE);
 
 		sprintf(shortLivedCharBuffer, "Total Score: %d", appState.score.totalScore);
-		drawString(130, 140, shortLivedCharBuffer, WHITE);
+		drawString(110, 130, shortLivedCharBuffer, WHITE);
 
 		break;
 

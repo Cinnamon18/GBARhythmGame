@@ -174,7 +174,7 @@ void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons
 
         case SONG_COMPLETE_NODRAW:
         //Do a clean restart of the game loop. This way we don't have to worry abt cleaning up score structs or w/e
-        if(GET_KEY(BUTTON_ANY)) {
+        if(GET_KEY(BUTTON_START)) {
             appState->nextState = APP_INIT;
         }
         break;
