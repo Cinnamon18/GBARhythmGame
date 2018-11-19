@@ -3,6 +3,7 @@
 #include "images/VictoryScreen.h"
 #include "images/NoteImage.h"
 #include "images/Note2Image.h"
+#include "images/Note3Image.h"
 #include "images/HitIndicator.h"
 #include<stdio.h> 
 
@@ -31,7 +32,7 @@ void drawFallingCircles(int noteIndex, int beatPercentElapsed) {
 	int scaledNoteOffset = ((NOTE_SIZE - scaledNoteSize) / 2);
 
 	drawRectDMA(noteBaseOffset + scaledNoteOffset, notesY - BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
-	drawImageDMA(noteBaseOffset + scaledNoteOffset, notesY, scaledNoteSize, scaledNoteSize, Note2Image);
+	drawImageDMA(noteBaseOffset + scaledNoteOffset, notesY, scaledNoteSize, scaledNoteSize, Note3Image);
 }
 
 //TODO replace color with img.
