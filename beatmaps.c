@@ -5,7 +5,7 @@
 // Looks like this, where Xs represent unused bits
 // xxxx asdf xxx(space bar) jkl;
 
-const unsigned short map1[21] =
+const unsigned short map1[10] =
 {
 	0x0100,
 	0x0008,
@@ -13,17 +13,6 @@ const unsigned short map1[21] =
 	0x0010,
 	0x0801,
 	0x0F1F,
-	0x0800,
-	0x0800,
-	0x0800,
-	0x0800,
-	0x0800,
-	0x0800,
-	0x0800,
-	0x0800,
-	0x0800,
-	0x0800,
-	0x0800,
 	0x0800,
 	0x0800,
 	0x0800,

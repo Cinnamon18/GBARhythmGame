@@ -26,6 +26,12 @@ typedef struct {
 } Song;
 
 typedef struct {
+    const u16 key;
+    const u16 mapCode;
+    const int index;
+} Note;
+
+typedef struct {
     int perfects;
     int greats;
     int oks;
@@ -33,11 +39,22 @@ typedef struct {
     int totalScore;
 } Score;
 
-extern Song songs[];
+extern Song songs[5];
+extern Note notes[9];
 #define NUM_SONGS 5
 #define PERFECT_FRAMES 5
 #define GREAT_FRAMES 10
 #define OK_FRAMES 20
+
+
+
+#define foreach(item, array)                                \
+    for(int keep = 1,                                       \
+        count = 0,                                          \
+        size = sizeof (array) / sizeof *(array);            \
+        keep && count != size;                              \
+        keep = !keep, count++)                              \
+    for(item = (array) + count; keep; keep = !keep)
 
 
 typedef struct {
@@ -50,7 +67,7 @@ typedef struct {
     //song play
     int firstFrameOfThisSong;
     Score score;
-    int beatsAttempted; //Keeps track of which notes the player has pressed in the map so you can't do so twice
+    u16 tapsThisFrame; //Keeps track of which notes the player has pressed
 
     //song complete
 

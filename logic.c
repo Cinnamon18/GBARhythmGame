@@ -3,20 +3,32 @@
 #include <stdlib.h>
 
 Song songs[] = {
-    { MAP1_SIZE, 60, map1, CYAN, "Song A"},
-    { MAP1_SIZE, 40, map1, MAGENTA, "Song B"},
-    { MAP1_SIZE, 20, map1, YELLOW, "Song C"},
-    { MAP1_SIZE, 10, map1, GREEN, "Song D"},
-    { MAP1_SIZE, 5, map1, BLUE, "Song E"}
+    { MAP1_SIZE, 100, map1, CYAN, "Song A"},
+    { MAP1_SIZE, 80, map1, MAGENTA, "Song B"},
+    { MAP1_SIZE, 60, map1, YELLOW, "Song C"},
+    { MAP1_SIZE, 40, map1, GREEN, "Song D"},
+    { MAP1_SIZE, 20, map1, BLUE, "Song E"}
+};
+
+Note notes[] = {
+   { BUTTON_A, 0x0800, 0 },
+   { BUTTON_B, 0x0400, 1 },
+   { BUTTON_L, 0x0200, 2 },
+   { BUTTON_R, 0x0100, 3 },
+   { BUTTON_LEFT, 0x0008, 4 },
+   { BUTTON_UP, 0x0004, 5 },
+   { BUTTON_DOWN, 0x0002, 6 },
+   { BUTTON_RIGHT, 0x0001, 7 },
+   { BUTTON_START, 0x0010, 8 }
 };
 
 void initializeAppState(AppState* appState) {
     appState->nextState = SONG_SELECT;
 
-    appState->currentSongIndex = 1;
+    appState->currentSongIndex = 0;
     Score score = { 0, 0, 0, 0, 0 };
     appState->score = score;
-    appState->beatsAttempted = 0;
+    appState->tapsThisFrame = 0x0;
 }
 
 void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons) {
@@ -57,95 +69,33 @@ void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons
         //Keep track of how far in the song we are
         int frameProgress = (vBlankCounter - appState->firstFrameOfThisSong);
         int beatProgress = (frameProgress / currentSong.framesPerBeat);
+        int framesIntoThisBeat = frameProgress % currentSong.framesPerBeat;
 
+        //Clear the attempted taps
+        appState->tapsThisFrame = 0x0;
 
         //Figure out if the player hit the beat! Only check if they're pressing, and we haven't finished the song
-        if(GET_KEY(BUTTON_ANY) && (beatProgress < currentSong.beatCount)) {
+        if(GET_KEY(BUTTON_ANY) && (beatProgress <= currentSong.beatCount)) {
 
             int beatsHit = 0;
             //Check each individual key to see if they hit it
-            if(GET_KEY(BUTTON_A)) {
-                //Check that we're supposed to be pressing A
-                if(currentSong.beatmap[beatProgress + 1] && 0x0800) {
-                    beatsHit++;
-                } else {
-                    //You get a miss if you press the button and there's no notes!
-                    appState->score.misses++;
+            //Honestly? these preprocessors are impressive.
+            foreach(Note *note, notes) {
+                if(GET_KEY(note->key)) {
+                    //make a note that we pressed it for the graphics file
+                    appState->tapsThisFrame = appState->tapsThisFrame | note->mapCode;
+                    //count up how many notes we've hit
+                    if(currentSong.beatmap[beatProgress] && note->mapCode) {
+                        beatsHit++;
+                    }
                 }
             }
-
-            if(GET_KEY(BUTTON_B)) {
-                if(currentSong.beatmap[beatProgress + 1] && 0x0400) {
-                    beatsHit++;
-                } else {
-                    appState->score.misses++;
-                }
-            }
-
-            if(GET_KEY(BUTTON_L)) {
-                if(currentSong.beatmap[beatProgress + 1] && 0x0200) {
-                    beatsHit++;
-                } else {
-                    appState->score.misses++;
-                }
-            }
-
-            if(GET_KEY(BUTTON_R)) {
-                if(currentSong.beatmap[beatProgress + 1] && 0x0100) {
-                    beatsHit++;
-                } else {
-                    appState->score.misses++;
-                }
-            }
-
-            if(GET_KEY(BUTTON_START)) {
-                if(currentSong.beatmap[beatProgress + 1] && 0x0010) {
-                    beatsHit++;
-                } else {
-                    appState->score.misses++;
-                }
-            }
-
-            if(GET_KEY(BUTTON_LEFT)) {
-                if(currentSong.beatmap[beatProgress + 1] && 0x0008) {
-                    beatsHit++;
-                } else {
-                    appState->score.misses++;
-                }
-            }
-
-            if(GET_KEY(BUTTON_UP)) {
-                if(currentSong.beatmap[beatProgress + 1] && 0x0004) {
-                    beatsHit++;
-                } else {
-                    appState->score.misses++;
-                }
-            }
-
-            if(GET_KEY(BUTTON_DOWN)) {
-                if(currentSong.beatmap[beatProgress + 1] && 0x0002) {
-                    beatsHit++;
-                } else {
-                    appState->score.misses++;
-                }
-            }
-
-            if(GET_KEY(BUTTON_RIGHT)) {
-                if(currentSong.beatmap[beatProgress + 1] && 0x0001) {
-                    beatsHit++;
-                } else {
-                    appState->score.misses++;
-                }
-            }
-
-
-
 
             //How different are you from the optimal?
-            int framesOff = ((beatProgress + 1) * currentSong.framesPerBeat) - frameProgress;
-
+            int framesOff = (currentSong.framesPerBeat - framesIntoThisBeat);
             framesOff = abs(framesOff);
 
+            //Score appropriately
             if(framesOff < PERFECT_FRAMES) {
                 appState->score.perfects += beatsHit;
             } else if (framesOff < GREAT_FRAMES) {
@@ -153,12 +103,12 @@ void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons
             } else if (framesOff < OK_FRAMES) {
                 appState->score.oks += beatsHit;
             } else {
-                appState->score.misses++;
+                appState->score.misses += beatsHit;
             }
         }
 
         //if we've finsihed the song, advance
-        if (frameProgress > (currentSong.framesPerBeat * currentSong.beatCount + 100)) {
+        if (frameProgress > ((currentSong.framesPerBeat * currentSong.beatCount) + 100)) {
             //Calculate total score. Oks give you 0 points.
             Score score = appState->score;
             appState->score.totalScore = 100 * score.perfects + 50 * score.greats + -50 * score.misses;

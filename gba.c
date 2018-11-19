@@ -65,6 +65,7 @@ void fillScreenDMA(volatile u16 color) {
     DMA[3].cnt = TOTAL_SCREEN_PIXELS | DMA_ON | DMA_SOURCE_FIXED;
 }
 
+
 void drawChar(int col, int row, char ch, u16 color) {
     for(int r = 0; r<8; r++) {
         for(int c=0; c<6; c++) {

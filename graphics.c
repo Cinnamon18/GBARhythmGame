@@ -17,7 +17,26 @@
 // This function will be used to draw things that might have moved in a frame.
 // For example, in a Snake game, draw the snake, the food, the score.
 
+
+//TODO replace black w background, replace color with img
+void drawFallingCircles(int noteIndex, int beatPercentElapsed, volatile u16 color) {
+	int notesY = HIT_Y * beatPercentElapsed;
+	int scaledNoteSize = ((beatPercentElapsed * NOTE_SIZE) / HIT_Y_MULT);
+	int noteBaseOffset = (NOTE_PADDING / 2) + (noteIndex * (NOTE_SIZE + NOTE_PADDING));
+	int scaledNoteOffset = ((NOTE_SIZE - scaledNoteSize) / 2);
+
+	drawRectDMA(noteBaseOffset + scaledNoteOffset, notesY - BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
+	drawRectDMA(noteBaseOffset + scaledNoteOffset, notesY, scaledNoteSize, scaledNoteSize, color);
+}
+
+//TODO replace color with img.
+void drawTapIndicator(int noteIndex, int y, volatile u16 color) {
+	drawRectDMA((NOTE_PADDING / 2) + (noteIndex * (NOTE_SIZE + NOTE_PADDING)), y, NOTE_SIZE, NOTE_SIZE, color);
+}
+
+//for drawing text & stuff
 static char shortLivedCharBuffer[20]; 
+
 
 void drawAppState(AppState *state) {
 	AppState appState = *state;
@@ -65,52 +84,39 @@ void drawAppState(AppState *state) {
 		int frameProgress = (vBlankCounter - appState.firstFrameOfThisSong);
 		int beatProgress = (frameProgress / currentSong.framesPerBeat);
 		int framesIntoThisBeat = frameProgress % currentSong.framesPerBeat;
-
-		//int hack... it's 20 x the actual percent
-		int beatPercentElapsed = (framesIntoThisBeat * 20) / currentSong.framesPerBeat;
+		//int hack... it's hitymult x the actual percent
+		int beatPercentElapsed = (framesIntoThisBeat * HIT_Y_MULT) / currentSong.framesPerBeat;
 
 		// DEBUG
 		drawRectDMA(0, 0, 150, 20, BLACK);
 		char str[25];
-		sprintf(str, "percent elapsed: %d", beatPercentElapsed);
+		sprintf(str, "debug: %d", beatPercentElapsed);
 		drawString(0, 0, str, WHITE);
 
-		//Draw notes
-		int notesY = HIT_Y * beatPercentElapsed;
-		if(currentSong.beatmap[beatProgress] & 0x0800) {
-			drawRectDMA(5, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
-			drawRectDMA(5, notesY, NOTE_SIZE, NOTE_SIZE, RED);
-		}
-		if(currentSong.beatmap[beatProgress] & 0x0400) {
-			drawRectDMA(35, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
-			drawRectDMA(35, notesY, NOTE_SIZE, NOTE_SIZE, RED);
-		}
-		if(currentSong.beatmap[beatProgress] & 0x0200){
-			drawRectDMA(65, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
-			drawRectDMA(65, notesY, NOTE_SIZE, NOTE_SIZE, RED);
-		}
-		if(currentSong.beatmap[beatProgress] & 0x0100){
-			drawRectDMA(95, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
-			drawRectDMA(95, notesY, NOTE_SIZE, NOTE_SIZE, RED);
-		}
-		if(currentSong.beatmap[beatProgress] & 0x0008){
-			drawRectDMA(125, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
-			drawRectDMA(125, notesY, NOTE_SIZE, NOTE_SIZE, RED);
-		}
-		if(currentSong.beatmap[beatProgress] & 0x0004){
-			drawRectDMA(155, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
-			drawRectDMA(155, notesY, NOTE_SIZE, NOTE_SIZE, RED);
-		}
-		if(currentSong.beatmap[beatProgress] & 0x0002){
-			drawRectDMA(185, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
-			drawRectDMA(185, notesY, NOTE_SIZE, NOTE_SIZE, RED);
-		}
-		if(currentSong.beatmap[beatProgress] & 0x0001){
-			drawRectDMA(215, notesY -  BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
-			drawRectDMA(215, notesY, NOTE_SIZE, NOTE_SIZE, RED);
+
+		//This is just to have the whole "brief pause after the song". may need to adjust if we want to have background effects going in that time.
+		if (beatProgress > currentSong.beatCount) {
+			break;
 		}
 
 
+		//Draw in the notes
+		foreach(Note *note, notes) {
+			if(currentSong.beatmap[beatProgress] & note->mapCode) {
+				drawFallingCircles(note->index, beatPercentElapsed, BLUE);
+			}
+
+			//clear out a lingering note at the hit circle
+			//TODO replace black with background
+			if((currentSong.beatmap[beatProgress - 1] & note->mapCode) && (framesIntoThisBeat == 0)) {
+				drawRectDMA((NOTE_PADDING / 2) + (note->index * (NOTE_SIZE + NOTE_PADDING)), HIT_Y_ACTUAL - 10, NOTE_SIZE, NOTE_SIZE + 10, BLACK);
+			}
+
+			//Draw hit indicators
+			if(appState.tapsThisFrame & note->mapCode) {
+				drawTapIndicator(note->index, HIT_Y_ACTUAL, RED);
+			}
+		}
 
 
 		break;

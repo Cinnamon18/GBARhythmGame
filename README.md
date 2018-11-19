@@ -9,6 +9,12 @@ Please note I rebound the default mednafen controls. Here are the relevant keybi
 |-|-|-|-|-|-|-|-|-|
   left      right
 ```
-When playing a song, you press there are 8 possible places a note can fall. The leftmost note spot corresponds to A, the second leftmost to S, and so on.
+When playing a song there are 8 possible places a note can fall. Press the keyboard key that corresponds to the note. That is to say, the leftmost note spot corresponds to A, the second leftmost to S, and so on.
 
-On the song select screen, press the left keys to scroll left, and the right keys to scroll right. Pretty simple! Space bar is the "confirm" or "enter" button. Select is bound to its default key, "backspace".
+On the song select screen, press the left keys to scroll left, and the right keys to scroll right. Pretty simple! Space bar is the "confirm" or "enter" button. Select is bound to its default key, "backspace", because I was afraid of getting marked down on the "select must soft reset the game" requirement if a TA couldn't figure out my more thematically consistent rebind :p
+
+Scoring is 'price is right' rules. Hit the note as close to perfect as possible without going over and tallied as follows:
+* Perfect: 100 points
+* Great: 50 points
+* OK: 0 points
+* Miss: -50 points
