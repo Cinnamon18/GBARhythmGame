@@ -45,15 +45,15 @@ void drawRectDMA(int col, int row, int width, int height, volatile u16 color) {
     }
 }
 
-void drawFullScreenImageDMA(u16 *img) {
+void drawFullScreenImageDMA(const u16 *img) {
     DMA[3].src = img;
     DMA[3].dst = videoBuffer;
     DMA[3].cnt = TOTAL_SCREEN_PIXELS | DMA_SOURCE_INCREMENT | DMA_DESTINATION_INCREMENT | DMA_ON;
 }
 
-void drawImageDMA(int col, int row, int width, int height, u16 *image) {
+void drawImageDMA(int col, int row, int width, int height, const u16 *image) {
     for (int r = 0; r < height; r++) {
-        DMA[3].src = &image[OFFSET(row + r, col, WIDTH)];
+        DMA[3].src = image + (width * r);//[OFFSET(row + r, col, WIDTH)];
         DMA[3].dst = &videoBuffer[OFFSET(row + r, col, WIDTH)];
         DMA[3].cnt = width | DMA_ON | DMA_SOURCE_INCREMENT | DMA_DESTINATION_INCREMENT;
     }
