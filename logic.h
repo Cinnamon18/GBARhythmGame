@@ -42,9 +42,9 @@ typedef struct {
 extern Song songs[5];
 extern Note notes[9];
 #define NUM_SONGS 5
-#define PERFECT_FRAMES 5
-#define GREAT_FRAMES 10
-#define OK_FRAMES 20
+#define PERFECT_FRAMES 4
+#define GREAT_FRAMES 8
+#define OK_FRAMES 16
 
 
 

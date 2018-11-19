@@ -87,18 +87,17 @@ void drawAppState(AppState *state) {
 		//int hack... it's hitymult x the actual percent
 		int beatPercentElapsed = (framesIntoThisBeat * HIT_Y_MULT) / currentSong.framesPerBeat;
 
-		// DEBUG
-		drawRectDMA(0, 0, 150, 20, BLACK);
-		char str[25];
-		sprintf(str, "debug: %d", beatPercentElapsed);
-		drawString(0, 0, str, WHITE);
-
-
 		//This is just to have the whole "brief pause after the song". may need to adjust if we want to have background effects going in that time.
 		if (beatProgress > currentSong.beatCount) {
 			break;
 		}
 
+
+                    // DEBUG
+		drawRectDMA(0, 0, 150, 20, BLACK);
+		char str[25];
+		sprintf(str, "debug: %d", framesIntoThisBeat);
+		drawString(0, 0, str, WHITE);
 
 		//Draw in the notes
 		foreach(Note *note, notes) {

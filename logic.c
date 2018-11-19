@@ -3,23 +3,23 @@
 #include <stdlib.h>
 
 Song songs[] = {
-    { MAP1_SIZE, 100, map1, CYAN, "Song A"},
-    { MAP1_SIZE, 80, map1, MAGENTA, "Song B"},
-    { MAP1_SIZE, 60, map1, YELLOW, "Song C"},
-    { MAP1_SIZE, 40, map1, GREEN, "Song D"},
+    { MAP1_SIZE, 80, map1, CYAN, "Song A"},
+    { MAP1_SIZE, 60, map1, MAGENTA, "Song B"},
+    { MAP1_SIZE, 40, map1, YELLOW, "Song C"},
+    { MAP1_SIZE, 30, map1, GREEN, "Song D"},
     { MAP1_SIZE, 20, map1, BLUE, "Song E"}
 };
 
 Note notes[] = {
-   { BUTTON_A, 0x0800, 0 },
-   { BUTTON_B, 0x0400, 1 },
-   { BUTTON_L, 0x0200, 2 },
-   { BUTTON_R, 0x0100, 3 },
-   { BUTTON_LEFT, 0x0008, 4 },
-   { BUTTON_UP, 0x0004, 5 },
-   { BUTTON_DOWN, 0x0002, 6 },
-   { BUTTON_RIGHT, 0x0001, 7 },
-   { BUTTON_START, 0x0010, 8 }
+ { BUTTON_A, 0x0800, 0 },
+ { BUTTON_B, 0x0400, 1 },
+ { BUTTON_L, 0x0200, 2 },
+ { BUTTON_R, 0x0100, 3 },
+ { BUTTON_DOWN, 0x0008, 4 },
+ { BUTTON_LEFT, 0x0004, 5 },
+ { BUTTON_UP, 0x0002, 6 },
+ { BUTTON_RIGHT, 0x0001, 7 },
+ { BUTTON_START, 0x0010, 8 }
 };
 
 void initializeAppState(AppState* appState) {
@@ -93,7 +93,13 @@ void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons
 
             //How different are you from the optimal?
             int framesOff = (currentSong.framesPerBeat - framesIntoThisBeat);
-            framesOff = abs(framesOff);
+            //We're gonna do a weird thing here bc if you're too slow to hit the note, we might be on the next note, yeah?
+            //so if the player is like really super far off, we'll just assume they were too slow.
+            if (framesOff > (currentSong.framesPerBeat / 2)) {
+                framesOff = (currentSong.framesPerBeat - framesOff);
+            }
+
+
 
             //Score appropriately
             if(framesOff < PERFECT_FRAMES) {
