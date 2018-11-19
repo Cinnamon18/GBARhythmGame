@@ -1,13 +1,23 @@
 #include "logic.h"
+#include "images/Song1Big.h"
+#include "images/Song1Small.h"
+#include "images/Song2Big.h"
+#include "images/Song2Small.h"
+#include "images/Song3Big.h"
+#include "images/Song3Small.h"
+#include "images/Song4Big.h"
+#include "images/Song4Small.h"
+#include "images/Song5Big.h"
+#include "images/Song5Small.h"
 #include <stdio.h> 
 #include <stdlib.h>
 
 Song songs[] = {
-    { MAP1_SIZE, 80, map1, CYAN, "Song A"},
-    { MAP1_SIZE, 60, map1, MAGENTA, "Song B"},
-    { MAP1_SIZE, 40, map1, YELLOW, "Song C"},
-    { MAP1_SIZE, 30, map1, GREEN, "Song D"},
-    { MAP1_SIZE, 20, map1, BLUE, "Song E"}
+    { MAP1_SIZE, 80, map1, Song1Big, Song1Small, "Song A"},
+    { MAP1_SIZE, 60, map1, Song2Big, Song2Small, "Song B"},
+    { MAP1_SIZE, 40, map1, Song3Big, Song3Small, "Song C"},
+    { MAP1_SIZE, 30, map1, Song4Big, Song4Small, "Song D"},
+    { MAP1_SIZE, 20, map1, Song5Big, Song5Small, "Song E"}
 };
 
 Note notes[] = {

@@ -13,8 +13,11 @@ When playing a song there are 8 possible places a note can fall. Press the keybo
 
 On the song select screen, press the left keys to scroll left, and the right keys to scroll right. Pretty simple! Space bar is the "confirm" or "enter" button. Select is bound to its default key, "backspace", because I was afraid of getting marked down on the "select must soft reset the game" requirement if a TA couldn't figure out my more thematically consistent rebind :p
 
-Scoring is 'price is right' rules. Hit the note as close to perfect as possible without going over and tallied as follows:
+Scoring is tallied as follows:
 * Perfect: 100 points
 * Great: 50 points
 * OK: 0 points
 * Miss: -50 points
+
+## Build instructions
+You should only need a simple `make clean` to run. However, I could be mistaken. If so, check HW10.pdf for instructions.

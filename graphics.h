@@ -13,8 +13,8 @@
 #define HIT_Y_ACTUAL HIT_Y * HIT_Y_MULT
 #define BACKGROUND_REDRAW_HEIGHT 20
 
-void drawFallingCircles(int noteIndex, int notesY, volatile u16 color);
-void drawTapIndicator(int noteIndex, int y, volatile u16 color);
+void drawFallingCircles(int noteIndex, int notesY);
+void drawTapIndicator(int noteIndex, int y);
 
 
 // This function will be used to draw things that might have moved in a frame.
