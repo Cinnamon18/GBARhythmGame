@@ -4,6 +4,7 @@
 #include "images/NoteImage.h"
 #include "images/Note2Image.h"
 #include "images/Note3Image.h"
+#include "images/Note4Image.h"
 #include "images/HitIndicator.h"
 #include<stdio.h> 
 
@@ -24,20 +25,21 @@
 // For example, in a Snake game, draw the snake, the food, the score.
 
 
-//TODO replace black w background, replace color with img
+//TODO replace black w background
 void drawFallingCircles(int noteIndex, int beatPercentElapsed) {
 	int notesY = HIT_Y * beatPercentElapsed;
-	int scaledNoteSize = ((beatPercentElapsed * NOTE_SIZE) / HIT_Y_MULT);
 	int noteBaseOffset = (NOTE_PADDING / 2) + (noteIndex * (NOTE_SIZE + NOTE_PADDING));
-	int scaledNoteOffset = ((NOTE_SIZE - scaledNoteSize) / 2);
 
-	drawRectDMA(noteBaseOffset + scaledNoteOffset, notesY - BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
-	drawImageDMA(noteBaseOffset + scaledNoteOffset, notesY, scaledNoteSize, scaledNoteSize, Note3Image);
+	drawRectDMA(noteBaseOffset, notesY - BACKGROUND_REDRAW_HEIGHT, NOTE_SIZE, BACKGROUND_REDRAW_HEIGHT, BLACK);
+	drawImageDMA(noteBaseOffset, notesY, NOTE_SIZE, NOTE_SIZE, Note4Image);
 }
 
-//TODO replace color with img.
 void drawTapIndicator(int noteIndex, int y) {
 	drawImageDMA((NOTE_PADDING / 2) + (noteIndex * (NOTE_SIZE + NOTE_PADDING)), y, NOTE_SIZE, NOTE_SIZE, HitIndicator);
+}
+
+void clearTapIndicator(int noteIndex) {
+	drawRectDMA((NOTE_PADDING / 2) + (noteIndex * (NOTE_SIZE + NOTE_PADDING)), HIT_Y_ACTUAL, NOTE_SIZE, NOTE_SIZE, BLACK);
 }
 
 //for drawing text & stuff
@@ -97,27 +99,32 @@ void drawAppState(AppState *state) {
 		}
 
 
-                    // DEBUG
-		drawRectDMA(0, 0, 150, 20, BLACK);
+		// DEBUG
+		drawRectDMA(0, 0, 140, 20, BLACK);
 		char str[25];
-		sprintf(str, "debug: %d", framesIntoThisBeat);
+		sprintf(str, "debug: %d", (appState.tapCountdown)[3]);
 		drawString(0, 0, str, WHITE);
 
+
 		//Draw in the notes
-		foreach(Note *note, notes) {
-			if(currentSong.beatmap[beatProgress] & note->mapCode) {
-				drawFallingCircles(note->index, beatPercentElapsed);
+		int i = 0;
+		for(; i < NOTES_COUNT; i++) {
+			Note note = notes[i];
+			if(currentSong.beatmap[beatProgress] & note.mapCode) {
+				drawFallingCircles(note.index, beatPercentElapsed);
 			}
 
 			//clear out a lingering note at the hit circle
 			//TODO replace black with background
-			if((currentSong.beatmap[beatProgress - 1] & note->mapCode) && (framesIntoThisBeat == 0)) {
-				drawRectDMA((NOTE_PADDING / 2) + (note->index * (NOTE_SIZE + NOTE_PADDING)), HIT_Y_ACTUAL - 10, NOTE_SIZE, NOTE_SIZE + 10, BLACK);
+			if((currentSong.beatmap[beatProgress - 1] & note.mapCode) && (framesIntoThisBeat == 0)) {
+				drawRectDMA((NOTE_PADDING / 2) + (note.index * (NOTE_SIZE + NOTE_PADDING)), HIT_Y_ACTUAL - 10, NOTE_SIZE, NOTE_SIZE + 10, BLACK);
 			}
 
 			//Draw hit indicators
-			if(appState.tapsThisFrame & note->mapCode) {
-				drawTapIndicator(note->index, HIT_Y_ACTUAL);
+			if((appState.tapCountdown)[note.index] > 0) {
+				drawTapIndicator(note.index, HIT_Y_ACTUAL);
+			} else if((appState.tapCountdown)[note.index] == 0) {
+				clearTapIndicator(note.index);
 			}
 		}
 

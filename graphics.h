@@ -15,7 +15,7 @@
 
 void drawFallingCircles(int noteIndex, int notesY);
 void drawTapIndicator(int noteIndex, int y);
-
+void clearTapIndicator(int noteIndex);
 
 // This function will be used to draw things that might have moved in a frame.
 // For example, in a Snake game, draw the snake, the food, the score.
