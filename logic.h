@@ -47,16 +47,8 @@ extern Note notes[9];
 #define GREAT_FRAMES 8
 #define OK_FRAMES 16
 
-
-
-#define foreach(item, array)                                \
-    for(int keep = 1,                                       \
-        count = 0,                                          \
-        size = sizeof (array) / sizeof *(array);            \
-        keep && count != size;                              \
-        keep = !keep, count++)                              \
-    for(item = (array) + count; keep; keep = !keep)
-
+#define NOTES_COUNT 9
+#define HIT_INDICATOR_FRAMES 10
 
 typedef struct {
     // general
@@ -68,7 +60,7 @@ typedef struct {
     //song play
     int firstFrameOfThisSong;
     Score score;
-    u16 tapsThisFrame; //Keeps track of which notes the player has pressed
+    int * tapCountdown; //Keeps track of which notes the player has pressed
 
     //song complete
 

@@ -11,25 +11,26 @@
 #include "images/Song5Small.h"
 #include <stdio.h> 
 #include <stdlib.h>
+#include <string.h>
 
 Song songs[] = {
-    { MAP1_SIZE, 80, map1, Song1Big, Song1Small, "Song A"},
-    { MAP1_SIZE, 60, map1, Song2Big, Song2Small, "Song B"},
-    { MAP1_SIZE, 40, map1, Song3Big, Song3Small, "Song C"},
-    { MAP1_SIZE, 30, map1, Song4Big, Song4Small, "Song D"},
-    { MAP1_SIZE, 20, map1, Song5Big, Song5Small, "Song E"}
+    { MAP1_SIZE, 60, map1, Song1Big, Song1Small, "Snow Halation"},
+    { MAP1_SIZE, 50, map1, Song2Big, Song2Small, "Bokura no Live"},
+    { MAP1_SIZE, 40, map1, Song3Big, Song3Small, "Natsuiro Egao"},
+    { MAP1_SIZE, 30, map1, Song4Big, Song4Small, "Koi Aqua"},
+    { MAP1_SIZE, 20, map1, Song5Big, Song5Small, "Step! 0 to 1"}
 };
 
 Note notes[] = {
- { BUTTON_A, 0x0800, 0 },
- { BUTTON_B, 0x0400, 1 },
- { BUTTON_L, 0x0200, 2 },
- { BUTTON_R, 0x0100, 3 },
- { BUTTON_DOWN, 0x0008, 4 },
- { BUTTON_LEFT, 0x0004, 5 },
- { BUTTON_UP, 0x0002, 6 },
- { BUTTON_RIGHT, 0x0001, 7 },
- { BUTTON_START, 0x0010, 8 }
+    { BUTTON_A, 0x0800, 0 },
+    { BUTTON_B, 0x0400, 1 },
+    { BUTTON_L, 0x0200, 2 },
+    { BUTTON_R, 0x0100, 3 },
+    { BUTTON_DOWN, 0x0008, 4 },
+    { BUTTON_LEFT, 0x0004, 5 },
+    { BUTTON_UP, 0x0002, 6 },
+    { BUTTON_RIGHT, 0x0001, 7 },
+    { BUTTON_START, 0x0010, 8 }
 };
 
 void initializeAppState(AppState* appState) {
@@ -38,7 +39,15 @@ void initializeAppState(AppState* appState) {
     appState->currentSongIndex = 0;
     Score score = { 0, 0, 0, 0, 0 };
     appState->score = score;
-    appState->tapsThisFrame = 0x0;
+    // int countdown[NOTES_COUNT] = { 0 };
+    // memcpy(appState->tapCountdown, countdown, sizeof(appState->tapCountdown));
+    //TODO pressing restart causes a 36 bit memory leak each time.
+    appState->tapCountdown = (int *) malloc(NOTES_COUNT * sizeof(int));
+    int i = 0;
+    for(; i < NOTES_COUNT; i++) {
+        (appState->tapCountdown)[i] = 0;
+    }
+
 }
 
 void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons) {
@@ -81,21 +90,24 @@ void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons
         int beatProgress = (frameProgress / currentSong.framesPerBeat);
         int framesIntoThisBeat = frameProgress % currentSong.framesPerBeat;
 
-        //Clear the attempted taps
-        appState->tapsThisFrame = 0x0;
+        //Decrement tap progress
+        int i = 0;
+        for(; i < NOTES_COUNT; i++) {
+            (appState->tapCountdown)[i]--;
+        }
 
         //Figure out if the player hit the beat! Only check if they're pressing, and we haven't finished the song
         if(GET_KEY(BUTTON_ANY) && (beatProgress <= currentSong.beatCount)) {
 
             int beatsHit = 0;
             //Check each individual key to see if they hit it
-            //Honestly? these preprocessors are impressive.
-            foreach(Note *note, notes) {
-                if(GET_KEY(note->key)) {
-                    //make a note that we pressed it for the graphics file
-                    appState->tapsThisFrame = appState->tapsThisFrame | note->mapCode;
-                    //count up how many notes we've hit
-                    if(currentSong.beatmap[beatProgress] && note->mapCode) {
+            //The foreach preprocessor betrayed me :///
+            int i = 0;
+            for(; i < NOTES_COUNT; i++) {
+                Note note = notes[i];
+                if(GET_KEY(note.key)) {
+                    (appState->tapCountdown)[(note.index)] = HIT_INDICATOR_FRAMES;
+                    if(currentSong.beatmap[beatProgress] && note.mapCode) {
                         beatsHit++;
                     }
                 }
