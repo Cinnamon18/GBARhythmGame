@@ -9,16 +9,19 @@
 #include "images/Song4Small.h"
 #include "images/Song5Big.h"
 #include "images/Song5Small.h"
+#include "songs/TitleSong.h"
+#include "audio.h"
 #include <stdio.h> 
 #include <stdlib.h>
 #include <string.h>
 
+//{Song1Audio, SONG1LEN, SONG1FREQ}
 Song songs[] = {
-    { MAP1_SIZE, 60, map1, Song1Big, Song1Small, "Snow Halation"},
-    { MAP1_SIZE, 50, map1, Song2Big, Song2Small, "Bokura no Live"},
-    { MAP1_SIZE, 40, map1, Song3Big, Song3Small, "Natsuiro Egao"},
-    { MAP1_SIZE, 30, map1, Song4Big, Song4Small, "Koi Aqua"},
-    { MAP1_SIZE, 20, map1, Song5Big, Song5Small, "Step! 0 to 1"}
+    { MAP1_SIZE, 60, map1, Song1Big, Song1Small, "Snow Halation", {TitleSong, TITLESONGLEN, TITLESONGFREQ}},
+    { MAP2_SIZE, 50, map2, Song2Big, Song2Small, "Bokura no Live", {TitleSong, TITLESONGLEN, TITLESONGFREQ}},
+    { MAP3_SIZE, 20, map3, Song3Big, Song3Small, "Natsuiro Egao", {TitleSong, TITLESONGLEN, TITLESONGFREQ}},
+    { MAP4_SIZE, 30, map4, Song4Big, Song4Small, "Koi Aqua", {TitleSong, TITLESONGLEN, TITLESONGFREQ}},
+    { MAP5_SIZE, 20, map5, Song5Big, Song5Small, "Step! 0 to 1", {TitleSong, TITLESONGLEN, TITLESONGFREQ}}
 };
 
 Note notes[] = {
@@ -75,6 +78,7 @@ void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons
         
 
         case SONG_PLAY_PREP:
+        playMusic((songs[appState->currentSongIndex]).track);
         appState->firstFrameOfThisSong = vBlankCounter + 1;
         appState->nextState = SONG_PLAY;
         break;
@@ -99,6 +103,8 @@ void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons
         //Figure out if the player hit the beat! Only check if they're pressing, and we haven't finished the song
         if(GET_KEY(BUTTON_ANY) && (beatProgress <= currentSong.beatCount)) {
 
+            playHitSfx();
+
             int beatsHit = 0;
             //Check each individual key to see if they hit it
             //The foreach preprocessor betrayed me :///
@@ -107,7 +113,7 @@ void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons
                 Note note = notes[i];
                 if(GET_KEY(note.key)) {
                     (appState->tapCountdown)[(note.index)] = HIT_INDICATOR_FRAMES;
-                    if(currentSong.beatmap[beatProgress] && note.mapCode) {
+                    if(currentSong.beatmap[beatProgress] & note.mapCode) {
                         beatsHit++;
                     }
                 }
@@ -147,6 +153,8 @@ void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons
 
 
         case SONG_COMPLETE:
+        stopSound();
+        playVictorySfx();
         appState->nextState = SONG_COMPLETE_NODRAW;
         break;
 

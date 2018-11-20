@@ -1,6 +1,8 @@
 #include "gba.h"
 
 volatile unsigned short *videoBuffer = (volatile unsigned short *)0x6000000;
+DMASarah *dma = (DMASarah *)0x40000B0;
+
 u32 vBlankCounter = 0;
 
 void waitForVBlank(void) {
@@ -97,4 +99,11 @@ void drawCenteredString(int x, int y, int width, int height, char *str, u16 colo
     int col = x + ((width - strWidth) >> 1);
     int row = y + ((height - strHeight) >> 1);
     drawString(col, row, str, color);
+}
+
+void DMANow(int channel, volatile const void* source, volatile const void* destination, unsigned int control)
+{
+    dma[channel].src = source;
+    dma[channel].dst = destination;
+    dma[channel].cnt = DMA_ON | control;
 }
