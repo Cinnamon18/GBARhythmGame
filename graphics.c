@@ -91,20 +91,16 @@ void drawAppState(AppState *state) {
 		int frameProgress = (vBlankCounter - appState.firstFrameOfThisSong);
 		int beatProgress = (frameProgress / currentSong.framesPerBeat);
 		int framesIntoThisBeat = frameProgress % currentSong.framesPerBeat;
+
 		//int hack... it's hitymult x the actual percent
+		//Coming back to this later: it looks like i thought up the idea of fixed point math, but.... I didn't think to implement it with
+		//bitshifting and 1/256 accuracy like I could've. Oh well! next time! 1/60 ain't bad tbh, it only looks a lil chunky on easy maps.
 		int beatPercentElapsed = (framesIntoThisBeat * HIT_Y_MULT) / currentSong.framesPerBeat;
 
 		//This is just to have the whole "brief pause after the song". may need to adjust if we want to have background effects going in that time.
 		if (beatProgress > currentSong.beatCount) {
 			break;
 		}
-
-
-		// DEBUG
-		drawRectDMA(0, 0, 140, 20, BLACK);
-		char str[25];
-		sprintf(str, "debug: %d", (appState.tapCountdown)[3]);
-		drawString(0, 0, str, WHITE);
 
 
 		//Draw in the notes

@@ -77,7 +77,7 @@ const unsigned short map3[31] =
 
 const unsigned short map4[10] =
 {
-	0x0000,
+	0x0001,
 	0x0000,
 	0x0000,
 	0x0000,
@@ -91,7 +91,7 @@ const unsigned short map4[10] =
 
 const unsigned short map5[10] =
 {
-	0x0000,
+	0x0001,
 	0x0000,
 	0x0000,
 	0x0000,

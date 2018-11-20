@@ -7,6 +7,7 @@
 //#include "images/garbage.h"
 #include "images/SongSelectScreen.h"
 #include "images/SplashScreen.h"
+#include "audio.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -23,12 +24,20 @@ int main(void) {
     u32 currentButtons = BUTTONS;
 
     while(1) {
+
+        // DEBUG
+        drawRectDMA(0, 0, 140, 20, BLACK);
+        char str[25];
+        sprintf(str, "debug: %d", vBlankCounter);
+        drawString(0, 0, str, WHITE);
+
         // Load the current state of the buttons
         currentButtons = BUTTONS;
-        // fillScreenDMA(CYAN);
 
         switch(state) {
             case START:
+            setupAudio();
+            fillScreenDMA(CYAN);
             // Wait for VBlank
             waitForVBlank();
 
@@ -82,6 +91,11 @@ int main(void) {
             
             //Fufil requirement "you can restart at any time by pressing select"
             if(GET_KEY(BUTTON_SELECT)) {
+                stopSound();
+                if(appState.tapCountdown != NULL) {
+                    free(appState.
+                        tapCountdown);
+                }
                 state = START;
             }
             break;

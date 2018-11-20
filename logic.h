@@ -18,12 +18,19 @@ typedef enum {
 } GBAState;
 
 typedef struct {
+    const unsigned char * data;
+    int length;
+    int frequency;
+} Track;
+
+typedef struct {
     const int beatCount;
     const int framesPerBeat;
     const unsigned short * beatmap;
     const u16 * bigPreviewImage;
     const u16 * smallPreviewImage;
     char name[15];
+    Track track;
 } Song;
 
 typedef struct {
