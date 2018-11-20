@@ -15,10 +15,10 @@
 
 Song songs[] = {
     { MAP1_SIZE, 60, map1, Song1Big, Song1Small, "Snow Halation"},
-    { MAP1_SIZE, 50, map1, Song2Big, Song2Small, "Bokura no Live"},
-    { MAP1_SIZE, 40, map1, Song3Big, Song3Small, "Natsuiro Egao"},
-    { MAP1_SIZE, 30, map1, Song4Big, Song4Small, "Koi Aqua"},
-    { MAP1_SIZE, 20, map1, Song5Big, Song5Small, "Step! 0 to 1"}
+    { MAP2_SIZE, 50, map2, Song2Big, Song2Small, "Bokura no Live"},
+    { MAP3_SIZE, 40, map3, Song3Big, Song3Small, "Natsuiro Egao"},
+    { MAP4_SIZE, 30, map4, Song4Big, Song4Small, "Koi Aqua"},
+    { MAP5_SIZE, 20, map5, Song5Big, Song5Small, "Step! 0 to 1"}
 };
 
 Note notes[] = {
@@ -107,7 +107,7 @@ void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons
                 Note note = notes[i];
                 if(GET_KEY(note.key)) {
                     (appState->tapCountdown)[(note.index)] = HIT_INDICATOR_FRAMES;
-                    if(currentSong.beatmap[beatProgress] && note.mapCode) {
+                    if(currentSong.beatmap[beatProgress] & note.mapCode) {
                         beatsHit++;
                     }
                 }

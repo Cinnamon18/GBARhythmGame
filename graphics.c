@@ -1,4 +1,5 @@
 #include "graphics.h"
+#include "audio.h"
 #include "images/RhythmBackground.h"
 #include "images/VictoryScreen.h"
 #include "images/NoteImage.h"
