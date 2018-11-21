@@ -23,11 +23,11 @@
 
 //{Song1Audio, SONG1LEN, SONG1FREQ}
 Song songs[] = {
-    { MAP1_SIZE, 60, map1, Song1Big, Song1Small, "Snow Halation", {Snow, SNOWLEN, SNOWFREQ}},
-    { MAP2_SIZE, 50, map2, Song2Big, Song2Small, "Bokura no Live", {Bokura, BOKURALEN, BOKURAFREQ}},
-    { MAP3_SIZE, 20, map3, Song3Big, Song3Small, "Natsuiro Egao", {Natsu, NATSULEN, NATSUFREQ}},
-    { MAP4_SIZE, 30, map4, Song4Big, Song4Small, "Koi Aqua", {Koi, KOILEN, KOIFREQ}},
-    { MAP5_SIZE, 20, map5, Song5Big, Song5Small, "Step! 0 to 1", {Step, STEPLEN, STEPFREQ}}
+    { MAP1_SIZE, 42, map1, Song1Big, Song1Small, "Snow Halation", {Snow, SNOWLEN, SNOWFREQ}},
+    { MAP2_SIZE, 34, map2, Song2Big, Song2Small, "Bokura no Live", {Bokura, BOKURALEN, BOKURAFREQ}},
+    { MAP3_SIZE, 42, map3, Song3Big, Song3Small, "Natsuiro Egao", {Natsu, NATSULEN, NATSUFREQ}},
+    { MAP4_SIZE, 26, map4, Song4Big, Song4Small, "Koi Aqua", {Koi, KOILEN, KOIFREQ}},
+    { MAP5_SIZE, 26, map5, Song5Big, Song5Small, "Step! 0 to 1", {Step, STEPLEN, STEPFREQ}}
 };
 
 Note notes[] = {
@@ -146,6 +146,12 @@ void processAppState(AppState *appState, u32 previousButtons, u32 currentButtons
                 appState->score.misses += beatsHit;
             }
         }
+
+        // DEBUG
+        // drawRectDMA(0, 0, 140, 20, BLACK);
+        // char str[25];
+        // sprintf(str, "debug: %d", currentSong.framesPerBeat);
+        // drawString(0, 0, str, WHITE);
 
         //if we've finsihed the song, advance
         if (frameProgress > ((currentSong.framesPerBeat * currentSong.beatCount) + 100)) {

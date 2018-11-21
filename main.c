@@ -23,20 +23,15 @@ int main(void) {
     u32 previousButtons = BUTTONS;
     u32 currentButtons = BUTTONS;
 
-    while(1) {
+    setupAudio();
 
-        // DEBUG
-        // drawRectDMA(0, 0, 140, 20, BLACK);
-        // char str[25];
-        // sprintf(str, "debug: %d", vBlankCounter);
-        // drawString(0, 0, str, WHITE);
+    while(1) {
 
         // Load the current state of the buttons
         currentButtons = BUTTONS;
 
         switch(state) {
             case START:
-            setupAudio();
             fillScreenDMA(CYAN);
             // Wait for VBlank
             waitForVBlank();

@@ -10,11 +10,11 @@ extern const unsigned short map2[10];
 extern const unsigned short map3[31];
 #define MAP3_SIZE 31
 
-extern const unsigned short map4[10];
-#define MAP4_SIZE 10
+extern const unsigned short map4[40];
+#define MAP4_SIZE 40
 
-extern const unsigned short map5[10];
-#define MAP5_SIZE 10
+extern const unsigned short map5[33];
+#define MAP5_SIZE 33
 
 
 #endif
