@@ -2,6 +2,9 @@
 #include "logic.h"
 #include "audio.h"
 #include "songs/TitleSong.h"
+#include "songs/HitNoise.h"
+#include "songs/Victory.h"
+
 
 SOUND soundA;
 SOUND soundB;
@@ -19,12 +22,13 @@ void playMusic(Track track) {
 
 //TODO
 void playHitSfx(void) {
-	playSoundB(TitleSong, TITLESONGLEN, TITLESONGFREQ, 0);
+	//i forgot to mono it oops
+	playSoundB(HitNoise, HITNOISELEN, HITNOISEFREQ, 0);
 }
 
 //TODO
 void playVictorySfx(void) {
-	playSoundB(TitleSong, TITLESONGLEN, TITLESONGFREQ, 0);
+	playSoundB(Victory_c1, VICTORYLEN, VICTORYFREQ, 0);
 }
 
 

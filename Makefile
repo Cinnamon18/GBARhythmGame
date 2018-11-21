@@ -15,7 +15,7 @@ PROGNAME = GeorgiaTechSchoolIdolFestival
 # that will be compiled into your program. For example
 # if you have main.c and myLib.c then in the following
 # line you would put main.o and myLib.o
-OFILES = gba.o font.o logic.o graphics.o main.o audio.o images/garbage.o beatmaps.o images/SplashScreen.o images/HitIndicator.o images/RhythmBackground.o images/Song1Big.o images/Song1Small.o images/SongSelectScreen.o images/VictoryScreen.o images/NoteImage.o images/Note2Image.o images/Note3Image.o images/Note4Image.o images/Song2Big.o images/Song2Small.o images/Song3Big.o images/Song3Small.o images/Song4Big.o images/Song4Small.o images/Song5Big.o images/Song5Small.o songs/TitleSong.o 
+OFILES = gba.o font.o logic.o graphics.o main.o audio.o images/garbage.o beatmaps.o images/SplashScreen.o images/HitIndicator.o images/RhythmBackground.o images/Song1Big.o images/Song1Small.o images/SongSelectScreen.o images/VictoryScreen.o images/NoteImage.o images/Note2Image.o images/Note3Image.o images/Note4Image.o images/Song2Big.o images/Song2Small.o images/Song3Big.o images/Song3Small.o images/Song4Big.o images/Song4Small.o images/Song5Big.o images/Song5Small.o songs/TitleSong.o songs/Bokura.o songs/Step.o songs/Snow.o songs/Natsu.o songs/Koi.o songs/HitNoise.o songs/Victory.o 
 
 ################################################################################
 # These are various settings used to make the GBA toolchain work

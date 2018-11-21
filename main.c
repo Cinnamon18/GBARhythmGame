@@ -26,10 +26,10 @@ int main(void) {
     while(1) {
 
         // DEBUG
-        drawRectDMA(0, 0, 140, 20, BLACK);
-        char str[25];
-        sprintf(str, "debug: %d", vBlankCounter);
-        drawString(0, 0, str, WHITE);
+        // drawRectDMA(0, 0, 140, 20, BLACK);
+        // char str[25];
+        // sprintf(str, "debug: %d", vBlankCounter);
+        // drawString(0, 0, str, WHITE);
 
         // Load the current state of the buttons
         currentButtons = BUTTONS;
