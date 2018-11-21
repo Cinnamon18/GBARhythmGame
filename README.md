@@ -2,6 +2,8 @@
 
 A rhythm game I made for the CS 2110 GBA project.
 
+**Crank that volume i worked so hard on audio even though it ended up kinda shitty**
+
 Please note I rebound the default mednafen controls. Here are the relevant keybinds:
 ```
 |-|-|-|-|-|-|-|-|-|
@@ -20,4 +22,4 @@ Scoring is tallied as follows:
 * Miss: -50 points
 
 ## Build instructions
-You should only need a simple `make clean` to run. However, I could be mistaken. If so, check HW10.pdf for instructions.
+Try playing the .gba. If that doesn't work, you should only need a simple `make emu` to run. However, I could be mistaken. If so, check HW10.pdf for instructions.

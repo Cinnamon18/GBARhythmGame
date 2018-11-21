@@ -32,7 +32,7 @@ int main(void) {
 
         switch(state) {
             case START:
-            fillScreenDMA(CYAN);
+            // fillScreenDMA(CYAN);
             // Wait for VBlank
             waitForVBlank();
 
