@@ -1,11 +1,11 @@
 #ifndef BEATMAPS_SEEN
 #define BEATMAPS_SEEN
 
-extern const unsigned short map1[13];
-#define MAP1_SIZE 13
+extern const unsigned short map1[23];
+#define MAP1_SIZE 23
 
-extern const unsigned short map2[10];
-#define MAP2_SIZE 10
+extern const unsigned short map2[30];
+#define MAP2_SIZE 30
 
 extern const unsigned short map3[31];
 #define MAP3_SIZE 31

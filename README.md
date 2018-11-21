@@ -2,7 +2,7 @@
 
 A rhythm game I made for the CS 2110 GBA project.
 
-**Crank that volume i worked so hard on audio even though it ended up kinda shitty**
+***Crank that volume i worked so hard on audio even though it ended up kinda shitty***
 
 Please note I rebound the default mednafen controls. Here are the relevant keybinds:
 ```
