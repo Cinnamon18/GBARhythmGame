@@ -18,9 +18,9 @@ Starting Mednafen 0.9.48
    Loading override settings from "/home/a/.mednafen/pgconfig/GeorgiaTechSchoolIdolFestival.gba.cfg"...
     Failed: Error opening file "/home/a/.mednafen/pgconfig/GeorgiaTechSchoolIdolFestival.gba.cfg": No such file or directory
 
-   ROM:       7490KiB
-   ROM CRC32: 0xb7167cd8
-   ROM MD5:   0xa51c5635612125bb9b87de21717c0ba7
+   ROM:       4195KiB
+   ROM CRC32: 0xa65cf5b3
+   ROM MD5:   0x94597692b0c1c2e04009eee3f8cf66d8
 
   Loading custom palette from "/home/a/.mednafen/palettes/gba.pal"...
    Error: Error opening file "/home/a/.mednafen/palettes/gba.pal": No such file or directory
