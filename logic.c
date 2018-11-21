@@ -23,11 +23,11 @@
 
 //{Song1Audio, SONG1LEN, SONG1FREQ}
 Song songs[] = {
-    { MAP1_SIZE, 60, map1, Song1Big, Song1Small, "Snow Halation", {Snow_c1, SNOWLEN, SNOWFREQ}},
-    { MAP2_SIZE, 50, map2, Song2Big, Song2Small, "Bokura no Live", {Bokura_c1, BOKURALEN, BOKURAFREQ}},
-    { MAP3_SIZE, 20, map3, Song3Big, Song3Small, "Natsuiro Egao", {Natsu_c1, NATSULEN, NATSUFREQ}},
-    { MAP4_SIZE, 30, map4, Song4Big, Song4Small, "Koi Aqua", {Koi_c1, KOILEN, KOIFREQ}},
-    { MAP5_SIZE, 20, map5, Song5Big, Song5Small, "Step! 0 to 1", {Step_c1, STEPLEN, STEPFREQ}}
+    { MAP1_SIZE, 60, map1, Song1Big, Song1Small, "Snow Halation", {Snow, SNOWLEN, SNOWFREQ}},
+    { MAP2_SIZE, 50, map2, Song2Big, Song2Small, "Bokura no Live", {Bokura, BOKURALEN, BOKURAFREQ}},
+    { MAP3_SIZE, 20, map3, Song3Big, Song3Small, "Natsuiro Egao", {Natsu, NATSULEN, NATSUFREQ}},
+    { MAP4_SIZE, 30, map4, Song4Big, Song4Small, "Koi Aqua", {Koi, KOILEN, KOIFREQ}},
+    { MAP5_SIZE, 20, map5, Song5Big, Song5Small, "Step! 0 to 1", {Step, STEPLEN, STEPFREQ}}
 };
 
 Note notes[] = {

@@ -1,7 +1,6 @@
 #include "gba.h"
 #include "logic.h"
 #include "audio.h"
-#include "songs/TitleSong.h"
 #include "songs/HitNoise.h"
 #include "songs/Victory.h"
 
@@ -28,7 +27,7 @@ void playHitSfx(void) {
 
 //TODO
 void playVictorySfx(void) {
-	playSoundB(Victory_c1, VICTORYLEN, VICTORYFREQ, 0);
+	playSoundB(Victory, VICTORYLEN, VICTORYFREQ, 0);
 }
 
 
