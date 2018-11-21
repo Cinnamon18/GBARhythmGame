@@ -23,3 +23,6 @@ Scoring is tallied as follows:
 
 ## Build instructions
 Try playing the .gba. If that doesn't work, you should only need a simple `make emu` to run. However, I could be mistaken. If so, check HW10.pdf for instructions.
+
+### Attribution
+The honk pixel was borrowed from here: http://pixelyni.tumblr.com/post/153392807829/more-love-live-pixels-this-time-its-all-the. I confess, I haven't explicitly sought permission. Mostly because this is a small school assignment and I very much doubt any other human will ever play this game.
